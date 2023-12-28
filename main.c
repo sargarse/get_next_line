@@ -18,7 +18,7 @@ int main(void)
 {
 	int	fd;
 	char	*line;
-
+	
 	fd = open("archivo.txt", O_RDONLY);
 	if (fd == -1)
 		return (1);
@@ -30,3 +30,5 @@ int main(void)
 	close (fd);
 	return (0);
 }
+
+

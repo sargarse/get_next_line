@@ -17,7 +17,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	size_t	len;
 	char	*ptr;
 	char	*tmp;
-
+	
 	len = ft_strlen(s1) + ft_strlen(s2);
 	ptr = malloc(len + 1);
 	tmp = ptr;
@@ -34,7 +34,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 void	*ft_memmove(void *dst, const void *src, size_t len)
 {
 	char	*tmp;
-
+	
 	tmp = dst;
 	if (!dst && !src)
 		return (dst);
@@ -52,7 +52,7 @@ void	*ft_memmove(void *dst, const void *src, size_t len)
 size_t	ft_strlen(const char *src)
 {
 	size_t	i;
-
+	
 	i = 0;
 	while (*(src + i))
 		i++;
@@ -62,7 +62,7 @@ size_t	ft_strlen(const char *src)
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
 	char	*dst;
-
+	
 	if (!s)
 		return (NULL);
 	if (start > ft_strlen(s))
@@ -86,7 +86,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 char	*ft_strchr(const char *s, int c)
 {
 	char	*tmp;
-
+	
 	tmp = (char *)s;
 	while (*tmp)
 	{
