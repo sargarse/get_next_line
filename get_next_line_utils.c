@@ -5,96 +5,96 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: sgarcia3 <sgarcia3@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/08 15:44:06 by sgarcia3          #+#    #+#             */
-/*   Updated: 2023/12/09 01:55:54 by sgarcia3         ###   ########.fr       */
+/*   Created: 2024/01/09 00:20:03 by sgarcia3          #+#    #+#             */
+/*   Updated: 2024/01/09 13:55:01 by sgarcia3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin_gnl(char *s1, char *s2, ssize_t *position)
 {
 	size_t	len;
+	size_t	i;
 	char	*ptr;
 	char	*tmp;
 
-	len = ft_strlen(s1) + ft_strlen(s2);
-	ptr = malloc(len + 1);
-	tmp = ptr;
+	if (!s1 || !s2)
+		return (NULL);
+	len = ft_strlen_gnl(s1) + ft_strlen_gnl(s2);
+	ptr = (char *)malloc(sizeof(char) * (len + 1));
 	if (ptr == NULL)
 		return (NULL);
-	while (*s1)
-		*ptr++ = *s1++;
-	while (*s2)
-		*ptr++ = *s2++;
+	tmp = ptr;
+	i = 0;
+	while (*(s1 + i))
+	{
+		*ptr++ = *(s1 + i);
+		i++;
+	}
+	free(s1);
+	i = 0;
+	while (*(s2 + i)) {
+		*ptr++ = *(s2 + i);
+		i++;
+	}
 	*ptr = '\0';
+	if (len > 0 && *(tmp + len - 1) == '\n')
+		*(position) = 1;
 	return (tmp);
 }
 
-void	*ft_memmove(void *dst, const void *src, size_t len)
-{
-	char	*tmp;
-
-	tmp = dst;
-	if (!dst && !src)
-		return (dst);
-	if (dst == src)
-		return (dst);
-	if (src < dst)
-		while (len--)
-			*((char *)dst + len) = *((char *)src + len);
-	else
-		while (len--)
-			*(char *)dst++ = *(char *)src++;
-	return (tmp);
-}
-
-size_t	ft_strlen(const char *src)
+ssize_t	ft_strlen_gnl(const char *str)
 {
 	size_t	i;
 
 	i = 0;
-	while (*(src + i))
+	while (*str)
+	{
 		i++;
+		str++;
+	}
 	return (i);
 }
 
-char	*ft_substr(char const *s, unsigned int start, size_t len)
+void	ft_bzero(void *s, size_t n)
 {
-	char	*dst;
+	while (n--)
+		*(char *)s++ = 0;
+}
 
-	if (!s)
+void	ft_strlcpy_gnl(char *dst, const char *src, ssize_t size)
+{
+	ssize_t	i;
+
+	if (!dst || !src)
+		return ;
+	i = 0;
+	if (size > 0)
+	{
+		while (i < (size - 1) && *(src + i))
+		{
+			*(dst + i) = *(src + i);
+			i++;
+		}
+		*(dst + i) = '\0';
+	}
+}
+
+/*void	*ft_memmove(void *dst, const void *src, size_t len)
+{
+	unsigned char	*tmp;
+
+	tmp = dst;
+	if (!dst && !src)
 		return (NULL);
-	if (start > ft_strlen(s))
-	{
-		dst = malloc(sizeof(char) * 1);
-		if (!dst)
-			return (NULL);
-	}
+	if (dst == src)
+		return (dst);
+	if (src < dst)
+		while (len--)
+			*((unsigned char *)dst + len) = *((unsigned char *)src + len);
 	else
-	{
-		if (ft_strlen(s + start) < len)
-			len = ft_strlen(s + start);
-		dst = malloc(sizeof(char) * (len + 1));
-		if (!dst)
-			return (NULL);
-		ft_memmove(dst, s + start, len);
-	}
-	return (dst);
-}
-
-char	*ft_strchr(const char *s, int c)
-{
-	char	*tmp;
-
-	tmp = (char *)s;
-	while (*tmp)
-	{
-		if (*tmp == (char)c)
-			return (tmp);
-		tmp++;
-	}
-	if ((char)c == '\0')
-		return (tmp);
-	return (NULL);
-}
+		while (len--)
+			*(unsigned char *)dst++ = *(unsigned char *)src++;
+	return (tmp);
+}*/

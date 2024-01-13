@@ -5,88 +5,94 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: sgarcia3 <sgarcia3@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/05 22:47:28 by sgarcia3          #+#    #+#             */
-/*   Updated: 2023/12/09 02:14:58 by sgarcia3         ###   ########.fr       */
+/*   Created: 2024/01/09 00:19:42 by sgarcia3          #+#    #+#             */
+/*   Updated: 2024/01/09 19:22:31 by sgarcia3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 #include <stdio.h>
 
-void	ft_bzero(void *s, size_t n)
+char	*get_buffer(char *buff, ssize_t *position)
 {
-	size_t	i;
+	char	*line;
+	ssize_t	i;
 
 	i = 0;
-	while (i < n)
-	{
-		*((unsigned char *)s + i) = 0;
+	while (*(buff + i) && *(buff + i) != '\n')
 		i++;
-	}
-}
-
-ssize_t	read_fd(int fd, char **buff_ptr)
-{
-	ssize_t	ctrl;
-	char	*buff;
-
-	buff = *buff_ptr;
-	ctrl = read(fd, buff, BUFFER_SIZE);
-	if (ctrl < 0)
-	{
-		free(buff);
-		buff = NULL;
-		return (-1);
-	}
-	if (ctrl > 0)
-		buff[ctrl] = '\0';
-	*buff_ptr = buff;
-	return (ctrl);
-}
-
-char	*read_line(char **buff, int fd)
-{
-	char	*ptrln;
-	char	*line = "";
-	ssize_t	ctrl;
-	char	*tmp;
-
-	ctrl = read_fd(fd, &*buff);
-	if (ctrl < 1) {
+	if (*(buff + i) == '\n')
+		i++;
+	*position += i;
+	line = (char *)malloc(sizeof(char) * (i + 1));
+	if (!line)
 		return (NULL);
-	}
-	while ((ptrln = ft_strchr(*buff, '\n')) == NULL && ctrl > 0)
+	//if (i < BUFFER_SIZE + 1)
+	ft_strlcpy_gnl(line, buff, i + 1);
+	/*else
 	{
-		line = ft_strjoin(line, *buff);
-		ctrl = read_fd(fd, &*buff);
-		if (ctrl == -1)
-			return (NULL);
-	}
-	if ((ptrln = ft_strchr(*buff, '\n')))
-	{
-		tmp = ft_substr(*buff, 0, ptrln - *buff);
-		line = ft_strjoin(line, tmp);
-		ft_memmove(*buff, ptrln + 1, ft_strlen(ptrln + 1));
-		ft_bzero(*buff + ft_strlen(ptrln + 1), BUFFER_SIZE - ft_strlen(ptrln + 1));
-	}
-	if (ctrl < 0)
+		free(line);
 		return (NULL);
+	}*/
 	return (line);
 }
 
-char *get_next_line(int fd) {
-	static char *buff;
-	char *line;
 
-	if (fd == -1 || BUFFER_SIZE < 1)
-		return (NULL);
-	if (!buff)
-	{
-		buff = (char *) malloc(sizeof(char) * (BUFFER_SIZE + 1));
-		if (!buff)
+char	*line_exceeds_buff(char *line, char *buff, ssize_t *position, int fd)
+{
+	char	buff_aux[BUFFER_SIZE + 1];
+	ssize_t	bytes_read;
+	ssize_t	len;
+
+	ft_bzero(buff_aux, BUFFER_SIZE);
+	len = 0;
+	while (*position == 0) {
+		ft_bzero(buff_aux, BUFFER_SIZE + 1);
+		bytes_read = read(fd, buff_aux, BUFFER_SIZE);
+		if (bytes_read == -1) {
+			if (line)
+				free(line);
+			ft_bzero(buff, BUFFER_SIZE + 1);
 			return (NULL);
-		buff[0] = '\0';
+		}
+		while (*(line + len) && *(line + len) != '\n' && len < BUFFER_SIZE)
+			len++;
+		ft_strlcpy_gnl(buff, buff_aux + len, (BUFFER_SIZE + 1));
+		*(buff_aux + len) = '\0';
+		line = ft_strjoin_gnl(line, buff_aux, position);
+		if (bytes_read == 0) {
+			ft_bzero(buff, BUFFER_SIZE + 1);
+			break;
+		}
 	}
-	line = read_line(&buff, fd);
+	*position = 0;
+	return (line);
+}
+
+char	*get_next_line(int fd)
+{
+	static char	buff[BUFFER_SIZE + 1];
+	char		*line;
+	static ssize_t	position;
+	ssize_t		bytes_read;
+
+	if (fd < 0 || BUFFER_SIZE <= 0)
+		return (NULL);
+	if (position == 0 || buff[position] == '\0')
+	{
+		bytes_read = read(fd, buff, BUFFER_SIZE);
+		if (bytes_read == -1 || bytes_read == 0)
+			return (NULL);
+		buff[bytes_read] = '\0';
+		position = 0;
+	}
+	line = get_buffer(buff + position, &position);
+	if (!line)
+		return (NULL);
+	if (buff[position] == '\0')
+	{
+		position = 0;
+		line = line_exceeds_buff(line, buff, &position, fd);
+	}
 	return (line);
 }
