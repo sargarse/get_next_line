@@ -18,12 +18,12 @@
 # include <stddef.h>
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 10
+#  define BUFFER_SIZE 1
 # endif
-# if BUFFER_SIZE > 1000000
+/*# if BUFFER_SIZE > 1000000
 #  undef BUFFER_SIZE
-#  define BUFFER_SIZE 10
-# endif
+#  define BUFFER_SIZE
+# endif*/
 
 //void	*ft_memmove(void *dst, const void *src, size_t len);
 void	ft_bzero(void *s, size_t n);

@@ -39,8 +39,10 @@ char	*ft_strjoin_gnl(char *s1, char *s2, ssize_t *position)
 		i++;
 	}
 	*ptr = '\0';
-	if (len > 0 && *(tmp + len - 1) == '\n')
-		*(position) = 1;
+	if (len > 0 && *(tmp + len - 1) == '\n' && *position < BUFFER_SIZE)
+		*(position) = -1;
+	else if (*position == BUFFER_SIZE)
+		*position = 0;
 	return (tmp);
 }
 
