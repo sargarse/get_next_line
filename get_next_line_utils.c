@@ -32,30 +32,29 @@ char	*ft_strjoin_gnl(char *s1, char *s2, ssize_t *position)
 		*ptr++ = *(s1 + i);
 		i++;
 	}
-	free(s1);
+	if (s1)
+		free(s1);
 	i = 0;
 	while (*(s2 + i)) {
 		*ptr++ = *(s2 + i);
 		i++;
 	}
 	*ptr = '\0';
-	if (len > 0 && *(tmp + len - 1) == '\n' && *position < BUFFER_SIZE)
-		*(position) = -1;
-	else if (*position == BUFFER_SIZE)
+	if (*(tmp + len - 1) == '\n' || *(tmp + len - 1) == '\0')
+		*(position) = ft_strlen_gnl(s2);
+	if (ft_strlen_gnl(s2) == BUFFER_SIZE && *(s2 + BUFFER_SIZE - 1) == '\0')
 		*position = 0;
+	free(s2);
 	return (tmp);
 }
 
-ssize_t	ft_strlen_gnl(const char *str)
+size_t	ft_strlen_gnl(const char *str)
 {
 	size_t	i;
 
 	i = 0;
-	while (*str)
-	{
+	while (*(str + i))
 		i++;
-		str++;
-	}
 	return (i);
 }
 

@@ -21,19 +21,17 @@ char	*get_buffer(char *buff, ssize_t *position)
 	i = 0;
 	while (*(buff + i) && *(buff + i) != '\n')
 		i++;
-	if (*(buff + i) == '\n')
+	if (*(buff + i) == '\n' || *(buff + i) == '\0')
 		i++;
-	*position += i;
+	if ((*position) + i <= BUFFER_SIZE)
+		*position += i;
+	else
+		*position = BUFFER_SIZE;
 	line = (char *)malloc(sizeof(char) * (i + 1));
 	if (!line)
 		return (NULL);
-	//if (i < BUFFER_SIZE + 1)
 	ft_strlcpy_gnl(line, buff, i + 1);
-	/*else
-	{
-		free(line);
-		return (NULL);
-	}*/
+	//ft_strlcpy_gnl(line, buff, i);
 	return (line);
 }
 
@@ -43,6 +41,7 @@ char	*line_exceeds_buff(char *line, char *buff, ssize_t *position, int fd)
 	char	buff_aux[BUFFER_SIZE + 1];
 	ssize_t	bytes_read;
 	ssize_t	len;
+	char	*temp;
 
 	while (*position == 0) {
 		ft_bzero(buff_aux, BUFFER_SIZE + 1);
@@ -53,20 +52,23 @@ char	*line_exceeds_buff(char *line, char *buff, ssize_t *position, int fd)
 			ft_bzero(buff, BUFFER_SIZE + 1);
 			return (NULL);
 		}
+		if (bytes_read == 0)
+			break ;
+		buff_aux[bytes_read] = '\0';
 		len = 0;
-		while (*(buff_aux + len) && *(buff_aux + len) != '\n' && len < BUFFER_SIZE)
+		while (*(buff_aux + len) && *(buff_aux + len) != '\n')
 			len++;
 		if (*(buff_aux + len) == '\n' || *(buff_aux + len) == '\0')
 			len++;
-		ft_strlcpy_gnl(buff, buff_aux + len, (BUFFER_SIZE + 1));
-		*(buff + len) = '\0';
-		line = ft_strjoin_gnl(line, buff_aux, position);
-		if (bytes_read == 0) {
-			*position = -1;
-			break ;
-		}
+		ft_bzero(buff, BUFFER_SIZE + 1);
+		ft_strlcpy_gnl(buff, buff_aux + len, (BUFFER_SIZE - len + 1));
+		temp = (char *)malloc(sizeof(char) * (len + 1));
+		if (!temp)
+			return (NULL);
+		ft_strlcpy_gnl(temp, buff_aux, len + 1);
+		line = ft_strjoin_gnl(line, temp, position);
 	}
-	*position = 0;
+	//*position = 0;
 	return (line);
 }
 
@@ -77,6 +79,7 @@ char	*get_next_line(int fd)
 	static ssize_t	position;
 	ssize_t		bytes_read;
 
+	line = NULL;
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	if (position == 0 && buff[position] == '\0')
@@ -89,9 +92,11 @@ char	*get_next_line(int fd)
 	line = get_buffer(buff + position, &position);
 	if (!line)
 		return (NULL);
-	if (buff[position] == '\0' && position != -1)
+	if (position == BUFFER_SIZE && buff[position] == '\0')
 	{
+		ft_bzero(buff, BUFFER_SIZE + 1);
 		position = 0;
+		// line de dentro del paréntesis se libera en ft_strjoin_gnls
 		line = line_exceeds_buff(line, buff, &position, fd);
 	}
 	return (line);
