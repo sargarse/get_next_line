@@ -73,7 +73,7 @@ void	ft_strlcpy_gnl(char *dst, const char *src, ssize_t size)
 	i = 0;
 	if (size > 0)
 	{
-		while (i < (size - 1) && *(src + i))
+		while (i <= (size - 1) && *(src + i))
 		{
 			*(dst + i) = *(src + i);
 			i++;
@@ -81,21 +81,3 @@ void	ft_strlcpy_gnl(char *dst, const char *src, ssize_t size)
 		*(dst + i) = '\0';
 	}
 }
-
-/*void	*ft_memmove(void *dst, const void *src, size_t len)
-{
-	unsigned char	*tmp;
-
-	tmp = dst;
-	if (!dst && !src)
-		return (NULL);
-	if (dst == src)
-		return (dst);
-	if (src < dst)
-		while (len--)
-			*((unsigned char *)dst + len) = *((unsigned char *)src + len);
-	else
-		while (len--)
-			*(unsigned char *)dst++ = *(unsigned char *)src++;
-	return (tmp);
-}*/

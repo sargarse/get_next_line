@@ -18,7 +18,7 @@
 # include <stddef.h>
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 1
+#  define BUFFER_SIZE 4
 # endif
 /*# if BUFFER_SIZE > 1000000
 #  undef BUFFER_SIZE

@@ -19,12 +19,15 @@ int main(void)
 	int	fd;
 	char	*line;
 
-	fd = open("archivo.txt", O_RDONLY);
+	fd = open("archivo2.txt", O_RDONLY);
 	if (fd == -1)
 		return (1);
-	while ((line = get_next_line(fd)))
+	while (1)
 	{
-		printf("%s\n", line);
+		line = get_next_line(fd);
+		if (!line || *line == '\0')
+			break;
+		printf("linea: %s\n", line);
 		free(line);
 	}
 	close (fd);
