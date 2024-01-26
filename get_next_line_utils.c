@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include <stdio.h>
 
 char	*ft_strjoin_gnl(char *s1, char *s2, ssize_t *position)
 {
@@ -41,7 +42,8 @@ char	*ft_strjoin_gnl(char *s1, char *s2, ssize_t *position)
 	}
 	*ptr = '\0';
 	if (*(tmp + len - 1) == '\n' || *(tmp + len - 1) == '\0')
-		*(position) = ft_strlen_gnl(s2);
+		*position = ft_strlen_gnl(s2);
+	//printf("position: %ld\n", *position);
 	if (ft_strlen_gnl(s2) == BUFFER_SIZE && *(s2 + BUFFER_SIZE - 1) == '\0')
 		*position = 0;
 	free(s2);

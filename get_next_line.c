@@ -17,10 +17,7 @@ char	*get_buffer(char *buff, ssize_t *position)
 {
 	char	*line;
 	ssize_t	i;
-
-	//printf("Entra en get_buffer\n");
-	//printf("buff: %s\n", buff);
-	//printf("*position (get_buffer): %ld\n", *position);
+	
 	if (*position == -1)
 		*position = 0;
 	i = 0;
@@ -69,21 +66,18 @@ char	*line_exceeds_buff(char *line, char *buff, ssize_t *position, int fd)
 			return (NULL);
 		ft_strlcpy_gnl(temp, buff_aux, len + 1);
 		line = ft_strjoin_gnl(line, temp, position);
-		/****************************/
-		if (bytes_read < BUFFER_SIZE) {
-			//printf("aquí tambien\n");
-			*position = -1;
-			return (line);
-		}
 		if (bytes_read == 0)
 		{
-			//printf("aquí\n");
+			free(line);
 			*position = -1;
 			return (NULL);
 		}
+		if (bytes_read < BUFFER_SIZE) {
+			*position = -1;
+			return (line);
+		}
 	}
 	*position = 0;
-	//printf("position cero: %ld\n", *position);
 	return (line);
 }
 
@@ -104,18 +98,17 @@ char	*get_next_line(int fd)
 			return (NULL);
 		buff[bytes_read] = '\0';
 	}
+	//printf("buff: %s\n", buff);
 	line = get_buffer(buff, &position);
-	if (line == '\0')
-		return (NULL);
-	//printf("position: %ld\n", position);
+	//printf("line: %s\n", line);
+	//printf("len: %ld\n", ft_strlen_gnl(line));
+	/*if (line == '\0')
+		return (NULL);*/
 	if (position != -1 && position > 0 && buff[position - 1] != '\n')
 	{
-		//printf("Entra\n");
 		ft_bzero(buff, BUFFER_SIZE + 1);
 		position = 0;
 		line = line_exceeds_buff(line, buff, &position, fd);
 	}
-	/*if (buff[position] == '\n')
-		position++;*/
 	return (line);
 }
