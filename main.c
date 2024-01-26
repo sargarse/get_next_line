@@ -19,7 +19,7 @@ int main(void)
 	int	fd;
 	char	*line;
 
-	fd = open("archivo2.txt", O_RDONLY);
+	fd = open("archivo.txt", O_RDONLY);
 	if (fd == -1)
 		return (1);
 	while (1)

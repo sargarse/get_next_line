@@ -73,7 +73,7 @@ void	ft_strlcpy_gnl(char *dst, const char *src, ssize_t size)
 	i = 0;
 	if (size > 0)
 	{
-		while (i <= (size - 1) && *(src + i))
+		while (i < (size - 1) && *(src + i))
 		{
 			*(dst + i) = *(src + i);
 			i++;
