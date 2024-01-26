@@ -6,7 +6,7 @@
 /*   By: sgarcia3 <sgarcia3@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 00:19:42 by sgarcia3          #+#    #+#             */
-/*   Updated: 2024/01/09 19:22:31 by sgarcia3         ###   ########.fr       */
+/*   Updated: 2024/01/26 23:09:28 by sgarcia3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ char	*line_exceeds_buff(char *line, char *buff, ssize_t *position, int fd)
 		{
 			if (line)
 				free(line);
-			ft_bzero(buff, BUFFER_SIZE + 1);
 			return (NULL);
 		}
 		buff_aux[bytes_read] = '\0';
