@@ -44,7 +44,8 @@ char	*line_exceeds_buff(char *line, char *buff, ssize_t *position, int fd)
 	while (*position == 0) {
 		ft_bzero(buff_aux, BUFFER_SIZE + 1);
 		bytes_read = read(fd, buff_aux, BUFFER_SIZE);
-		if (bytes_read == -1) {
+		if (bytes_read == -1)
+		{
 			if (line)
 				free(line);
 			ft_bzero(buff, BUFFER_SIZE + 1);
@@ -56,8 +57,7 @@ char	*line_exceeds_buff(char *line, char *buff, ssize_t *position, int fd)
 			len++;
 		if (*(buff_aux + len) == '\n')
 			len++;
-		if (len < BUFFER_SIZE + 1)
-		{
+		if (len < BUFFER_SIZE + 1) {
 			ft_bzero(buff, BUFFER_SIZE + 1);
 			ft_strlcpy_gnl(buff, buff_aux + len, (BUFFER_SIZE - len + 1));
 		}
@@ -65,8 +65,9 @@ char	*line_exceeds_buff(char *line, char *buff, ssize_t *position, int fd)
 		if (!temp)
 			return (NULL);
 		ft_strlcpy_gnl(temp, buff_aux, len + 1);
+		
 		line = ft_strjoin_gnl(line, temp, position);
-		if (bytes_read == 0)
+		if (bytes_read == 0 && ft_strlen_gnl(line) == 0)
 		{
 			free(line);
 			*position = -1;

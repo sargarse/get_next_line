@@ -18,19 +18,14 @@
 # include <stddef.h>
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 1
+#  define BUFFER_SIZE 10
 # endif
-/*# if BUFFER_SIZE > 1000000
-#  undef BUFFER_SIZE
-#  define BUFFER_SIZE 512
-# endif*/
 
-//void	*ft_memmove(void *dst, const void *src, size_t len);
 void	ft_bzero(void *s, size_t n);
 void	ft_strlcpy_gnl(char *dst, const char *src, ssize_t size);
 char	*get_next_line(int fd);
 char	*get_buffer(char *buff, ssize_t *position);
-size_t	ft_strlen_gnl(const char *str);
+ssize_t	ft_strlen_gnl(const char *str);
 char	*line_exceeds_buff(char *line, char *buff, ssize_t *position, int fd);
 char	*ft_strjoin_gnl(char *s1, char *s2, ssize_t *position);
 

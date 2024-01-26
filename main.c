@@ -21,10 +21,10 @@ int main(void)
 	int i;
 
 	i = 0;
-	fd = open("archivo3.txt", O_RDONLY);
+	fd = open("one_line_no_nl.txt", O_RDONLY);
 	if (fd == -1)
 		return (1);
-	while (i < 2)
+	while (i < 3)
 	{
 		line = get_next_line(fd);
 		/*if (!line || *line == '\0')
