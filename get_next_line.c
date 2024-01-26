@@ -33,7 +33,6 @@ char	*get_buffer(char *buff, ssize_t *position)
 	return (line);
 }
 
-
 char	*line_exceeds_buff(char *line, char *buff, ssize_t *position, int fd)
 {
 	char	buff_aux[BUFFER_SIZE + 1];
@@ -41,7 +40,8 @@ char	*line_exceeds_buff(char *line, char *buff, ssize_t *position, int fd)
 	ssize_t	len;
 	char	*temp;
 
-	while (*position == 0) {
+	while (*position == 0)
+	{
 		ft_bzero(buff_aux, BUFFER_SIZE + 1);
 		bytes_read = read(fd, buff_aux, BUFFER_SIZE);
 		if (bytes_read == -1)
@@ -57,7 +57,8 @@ char	*line_exceeds_buff(char *line, char *buff, ssize_t *position, int fd)
 			len++;
 		if (*(buff_aux + len) == '\n')
 			len++;
-		if (len < BUFFER_SIZE + 1) {
+		if (len < BUFFER_SIZE + 1)
+		{
 			ft_bzero(buff, BUFFER_SIZE + 1);
 			ft_strlcpy_gnl(buff, buff_aux + len, (BUFFER_SIZE - len + 1));
 		}
@@ -65,7 +66,6 @@ char	*line_exceeds_buff(char *line, char *buff, ssize_t *position, int fd)
 		if (!temp)
 			return (NULL);
 		ft_strlcpy_gnl(temp, buff_aux, len + 1);
-		
 		line = ft_strjoin_gnl(line, temp, position);
 		if (bytes_read == 0 && ft_strlen_gnl(line) == 0)
 		{
@@ -73,7 +73,8 @@ char	*line_exceeds_buff(char *line, char *buff, ssize_t *position, int fd)
 			*position = -1;
 			return (NULL);
 		}
-		if (bytes_read < BUFFER_SIZE) {
+		if (bytes_read < BUFFER_SIZE)
+		{
 			*position = -1;
 			return (line);
 		}
@@ -84,10 +85,10 @@ char	*line_exceeds_buff(char *line, char *buff, ssize_t *position, int fd)
 
 char	*get_next_line(int fd)
 {
-	static char	buff[BUFFER_SIZE + 1];
-	char		*line;
+	static char		buff[BUFFER_SIZE + 1];
+	char			*line;
 	static ssize_t	position;
-	ssize_t		bytes_read;;
+	ssize_t			bytes_read;
 
 	line = NULL;
 	if (fd < 0 || BUFFER_SIZE <= 0)
@@ -99,12 +100,7 @@ char	*get_next_line(int fd)
 			return (NULL);
 		buff[bytes_read] = '\0';
 	}
-	//printf("buff: %s\n", buff);
 	line = get_buffer(buff, &position);
-	//printf("line: %s\n", line);
-	//printf("len: %ld\n", ft_strlen_gnl(line));
-	/*if (line == '\0')
-		return (NULL);*/
 	if (position != -1 && position > 0 && buff[position - 1] != '\n')
 	{
 		ft_bzero(buff, BUFFER_SIZE + 1);

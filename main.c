@@ -14,11 +14,11 @@
 #include <stdio.h>
 #include <fcntl.h>
 
-int main(void)
+int	main(void)
 {
-	int	fd;
+	int		fd;
 	char	*line;
-	int i;
+	int		i;
 
 	i = 0;
 	fd = open("one_line_no_nl.txt", O_RDONLY);
@@ -27,15 +27,10 @@ int main(void)
 	while (i < 3)
 	{
 		line = get_next_line(fd);
-		/*if (!line || *line == '\0')
-			break;*/
 		printf("%s", line);
 		free(line);
 		i++;
 	}
-	/*line = NULL;
-	if (!line)
-		printf("%s\n", line);*/
 	close (fd);
 	return (0);
 }

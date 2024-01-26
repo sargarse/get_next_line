@@ -15,10 +15,10 @@
 
 char	*ft_strjoin_gnl(char *s1, char *s2, ssize_t *position)
 {
-	size_t	len;
-	size_t	i;
-	char	*ptr;
-	char	*tmp;
+	ssize_t		len;
+	size_t		i;
+	char		*ptr;
+	char		*tmp;
 	
 	if (!s1 || !s2)
 		return (NULL);
@@ -36,15 +36,14 @@ char	*ft_strjoin_gnl(char *s1, char *s2, ssize_t *position)
 	if (s1)
 		free(s1);
 	i = 0;
-	while (*(s2 + i)) {
+	while (*(s2 + i))
+	{
 		*ptr++ = *(s2 + i);
 		i++;
 	}
 	*ptr = '\0';
-	if (*(tmp + len - 1) == '\n')
-	{
+	if (len > 0 && *(tmp + len - 1) == '\n')
 		*position = ft_strlen_gnl(s2);
-	}
 	free(s2);
 	return (tmp);
 }
