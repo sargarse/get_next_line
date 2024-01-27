@@ -14,18 +14,22 @@
 #include <stdio.h>
 #include <fcntl.h>
 
-int main(void)
+int	main(void)
 {
-	int	fd;
+	int		fd;
 	char	*line;
+	int		i;
 
-	fd = open("archivo.txt", O_RDONLY);
+	i = 0;
+	fd = open("1char.txt", O_RDONLY);
 	if (fd == -1)
 		return (1);
-	while ((line = get_next_line(fd)))
+	while (i < 2)
 	{
-		printf("%s\n", line);
+		line = get_next_line(fd);
+		printf("%s", line);
 		free(line);
+		i++;
 	}
 	close (fd);
 	return (0);

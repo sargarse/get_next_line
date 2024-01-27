@@ -18,14 +18,9 @@
 # include <stddef.h>
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 1
+#  define BUFFER_SIZE 10
 # endif
-/*# if BUFFER_SIZE > 1000000
-#  undef BUFFER_SIZE
-#  define BUFFER_SIZE
-# endif*/
 
-//void	*ft_memmove(void *dst, const void *src, size_t len);
 void	ft_bzero(void *s, size_t n);
 void	ft_strlcpy_gnl(char *dst, const char *src, ssize_t size);
 char	*get_next_line(int fd);

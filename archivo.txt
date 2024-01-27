@@ -1,3 +1,6 @@
-- Hola Sara, ¿cómo estás?
-- Hoy estoy bien, pero no tengo ganas de programa en Java.
-- Pues nada, programa en C
+1
+2
+
+
+
+3

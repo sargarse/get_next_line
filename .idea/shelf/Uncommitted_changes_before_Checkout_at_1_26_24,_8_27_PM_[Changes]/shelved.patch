@@ -1,0 +1,33 @@
+Index: get_next_line.c
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>/* ************************************************************************** */\n/*                                                                            */\n/*                                                        :::      ::::::::   */\n/*   get_next_line.c                                    :+:      :+:    :+:   */\n/*                                                    +:+ +:+         +:+     */\n/*   By: sgarcia3 <sgarcia3@student.42madrid.com>   +#+  +:+       +#+        */\n/*                                                +#+#+#+#+#+   +#+           */\n/*   Created: 2024/01/09 00:19:42 by sgarcia3          #+#    #+#             */\n/*   Updated: 2024/01/09 19:22:31 by sgarcia3         ###   ########.fr       */\n/*                                                                            */\n/* ************************************************************************** */\n\n#include \"get_next_line.h\"\n#include <stdio.h>\n\nchar\t*get_buffer(char *buff, ssize_t *position)\n{\n\tchar\t*line;\n\tssize_t\ti;\n\n\ti = 0;\n\twhile (*(buff + i) && *(buff + i) != '\\n')\n\t\ti++;\n\tif (*(buff + i) == '\\n')\n\t\ti++;\n\t*position += i;\n\tline = (char *)malloc(sizeof(char) * (i + 1));\n\tif (!line)\n\t\treturn (NULL);\n\t//if (i < BUFFER_SIZE + 1)\n\tft_strlcpy_gnl(line, buff, i + 1);\n\t/*else\n\t{\n\t\tfree(line);\n\t\treturn (NULL);\n\t}*/\n\treturn (line);\n}\n\n\nchar\t*line_exceeds_buff(char *line, char *buff, ssize_t *position, int fd)\n{\n\tchar\tbuff_aux[BUFFER_SIZE + 1];\n\tssize_t\tbytes_read;\n\tssize_t\tlen;\n\n\twhile (*position == 0) {\n\t\tft_bzero(buff_aux, BUFFER_SIZE + 1);\n\t\tbytes_read = read(fd, buff_aux, BUFFER_SIZE);\n\t\tif (bytes_read == -1) {\n\t\t\tif (line)\n\t\t\t\tfree(line);\n\t\t\tft_bzero(buff, BUFFER_SIZE + 1);\n\t\t\treturn (NULL);\n\t\t}\n\t\tlen = 0;\n\t\twhile (*(buff_aux + len) && *(buff_aux + len) != '\\n' && len < BUFFER_SIZE)\n\t\t\tlen++;\n\t\tif (*(buff_aux + len) == '\\n' || *(buff_aux + len) == '\\0')\n\t\t\tlen++;\n\t\tft_strlcpy_gnl(buff, buff_aux + len, (BUFFER_SIZE + 1));\n\t\t*(buff + len) = '\\0';\n\t\tline = ft_strjoin_gnl(line, buff_aux, position);\n\t\tif (bytes_read == 0) {\n\t\t\t*position = -1;\n\t\t\tbreak ;\n\t\t}\n\t}\n\t*position = 0;\n\treturn (line);\n}\n\nchar\t*get_next_line(int fd)\n{\n\tstatic char\tbuff[BUFFER_SIZE + 1];\n\tchar\t\t*line;\n\tstatic ssize_t\tposition;\n\tssize_t\t\tbytes_read;\n\n\tif (fd < 0 || BUFFER_SIZE <= 0)\n\t\treturn (NULL);\n\tif (position == 0 && buff[position] == '\\0')\n\t{\n\t\tbytes_read = read(fd, buff, BUFFER_SIZE);\n\t\tif (bytes_read == -1 || bytes_read == 0)\n\t\t\treturn (NULL);\n\t\tbuff[bytes_read] = '\\0';\n\t}\n\tline = get_buffer(buff + position, &position);\n\tif (!line)\n\t\treturn (NULL);\n\tif (buff[position] == '\\0' && position != -1)\n\t{\n\t\tposition = 0;\n\t\tline = line_exceeds_buff(line, buff, &position, fd);\n\t}\n\treturn (line);\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/get_next_line.c b/get_next_line.c
+--- a/get_next_line.c	
++++ b/get_next_line.c	
+@@ -17,7 +17,7 @@
+ {
+ 	char	*line;
+ 	ssize_t	i;
+-
++	
+ 	i = 0;
+ 	while (*(buff + i) && *(buff + i) != '\n')
+ 		i++;
+@@ -27,13 +27,7 @@
+ 	line = (char *)malloc(sizeof(char) * (i + 1));
+ 	if (!line)
+ 		return (NULL);
+-	//if (i < BUFFER_SIZE + 1)
+ 	ft_strlcpy_gnl(line, buff, i + 1);
+-	/*else
+-	{
+-		free(line);
+-		return (NULL);
+-	}*/
+ 	return (line);
+ }
+ 

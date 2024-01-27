@@ -11,13 +11,13 @@
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include <stdio.h>
 
 char	*ft_strjoin_gnl(char *s1, char *s2, ssize_t *position)
+
 {
-	size_t	len;
-	size_t	i;
-	char	*ptr;
-	char	*tmp;
+	ssize_t		len;
+	char		*ptr;
 
 	if (!s1 || !s2)
 		return (NULL);
@@ -25,37 +25,22 @@ char	*ft_strjoin_gnl(char *s1, char *s2, ssize_t *position)
 	ptr = (char *)malloc(sizeof(char) * (len + 1));
 	if (ptr == NULL)
 		return (NULL);
-	tmp = ptr;
-	i = 0;
-	while (*(s1 + i))
-	{
-		*ptr++ = *(s1 + i);
-		i++;
-	}
+	ft_strlcpy_gnl(ptr, s1, ft_strlen_gnl(s1) + 1);
+	ft_strlcpy_gnl(ptr + ft_strlen_gnl(s1), s2, ft_strlen_gnl(s2) + 1);
 	free(s1);
-	i = 0;
-	while (*(s2 + i)) {
-		*ptr++ = *(s2 + i);
-		i++;
-	}
-	*ptr = '\0';
-	if (len > 0 && *(tmp + len - 1) == '\n' && *position < BUFFER_SIZE)
-		*(position) = -1;
-	else if (*position == BUFFER_SIZE)
-		*position = 0;
-	return (tmp);
+	if (len > 0 && *(ptr + len - 1) == '\n')
+		*position = ft_strlen_gnl(s2);
+	free(s2);
+	return (ptr);
 }
 
 ssize_t	ft_strlen_gnl(const char *str)
 {
-	size_t	i;
+	ssize_t	i;
 
 	i = 0;
-	while (*str)
-	{
+	while (*(str + i))
 		i++;
-		str++;
-	}
 	return (i);
 }
 
@@ -82,21 +67,3 @@ void	ft_strlcpy_gnl(char *dst, const char *src, ssize_t size)
 		*(dst + i) = '\0';
 	}
 }
-
-/*void	*ft_memmove(void *dst, const void *src, size_t len)
-{
-	unsigned char	*tmp;
-
-	tmp = dst;
-	if (!dst && !src)
-		return (NULL);
-	if (dst == src)
-		return (dst);
-	if (src < dst)
-		while (len--)
-			*((unsigned char *)dst + len) = *((unsigned char *)src + len);
-	else
-		while (len--)
-			*(unsigned char *)dst++ = *(unsigned char *)src++;
-	return (tmp);
-}*/
