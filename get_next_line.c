@@ -43,7 +43,7 @@ char	*manage_aux(char *buff_aux, char *buff, char *line, ssize_t *position)
 		len++;
 	if (len < BUFFER_SIZE + 1)
 		ft_strlcpy_gnl(buff, buff_aux + len, (BUFFER_SIZE - len + 1));
-	*temp = (char *)malloc(sizeof(char) * (len + 1));
+	temp = (char *)malloc(sizeof(char) * (len + 1));
 	if (!temp)
 		return (NULL);
 	ft_strlcpy_gnl(temp, buff_aux, len + 1);
