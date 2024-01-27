@@ -21,10 +21,10 @@ int	main(void)
 	int		i;
 
 	i = 0;
-	fd = open("one_line_no_nl.txt", O_RDONLY);
+	fd = open("1char.txt", O_RDONLY);
 	if (fd == -1)
 		return (1);
-	while (i < 3)
+	while (i < 2)
 	{
 		line = get_next_line(fd);
 		printf("%s", line);
