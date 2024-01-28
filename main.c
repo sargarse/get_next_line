@@ -21,10 +21,10 @@ int	main(void)
 	int		i;
 
 	i = 0;
-	fd = open("1char.txt", O_RDONLY);
+	fd = open("archivo2.txt", O_RDONLY);
 	if (fd == -1)
 		return (1);
-	while (i < 2)
+	while (i < 3)
 	{
 		line = get_next_line(fd);
 		printf("%s", line);
