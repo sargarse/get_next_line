@@ -17,18 +17,26 @@
 int	main(void)
 {
 	int		fd;
+	//int		fd2;
 	char	*line;
 	int		i;
 
 	i = 0;
-	fd = open("archivo2.txt", O_RDONLY);
+	//fd = open("alternate_line_nl_no_nl.txt", O_RDONLY);
+	fd = open("multiple_nlx5.txt", O_RDONLY);
+	//fd = open("archivo3.txt", O_RDONLY);
+	//fd = open("archivo2.txt", O_RDONLY);
+	//fd2 = open("archivo2.txt", O_RDONLY);
 	if (fd == -1)
 		return (1);
-	while (i < 3)
+	while (i < 9)
 	{
 		line = get_next_line(fd);
-		printf("%s", line);
+		printf("linea: %s", line);
 		free(line);
+		//line = get_next_line(fd2);
+		//printf("%s", line);
+		//free(line);
 		i++;
 	}
 	close (fd);

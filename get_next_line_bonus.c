@@ -13,13 +13,13 @@
 #include "get_next_line_bonus.h"
 #include <stdio.h>
 
-char	*get_buffer(char *buff/*, ssize_t *position*/)
+char	*get_buffer(char *buff)
 {
 	char		*line;
 	char		*buff_aux;
 	ssize_t		i;
 	ssize_t		len;
-
+	
 	i = 0;
 	while (*(buff + i) && *(buff + i) != '\n')
 		i++;
@@ -60,10 +60,9 @@ char	*manage_aux(char *buff_aux, char *buff, char *line, ssize_t *position)
 	return (line);
 }
 
-char	*line_exceeds_buff(char *line, char *buff/*, ssize_t *position*/, ssize_t *bytes_read, int fd)
+char	*line_exceeds_buff(char *line, char *buff, ssize_t *bytes_read, int fd)
 {
 	char	buff_aux[BUFFER_SIZE + 1];
-	//ssize_t	bytes_read;
 	ssize_t		position = 0;
 
 	while (position == 0)
@@ -87,31 +86,31 @@ char	*line_exceeds_buff(char *line, char *buff/*, ssize_t *position*/, ssize_t *
 
 char	*get_next_line(int fd)
 {
-	static char		buff[BUFFER_SIZE + 1];
+	static char		buff[4096][BUFFER_SIZE + 1];
 	char			*line;
-	//ssize_t			position;
 	ssize_t			bytes_read;
 
 	bytes_read = 1;
 	line = NULL;
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	if (fd < 0 || BUFFER_SIZE <= 0 || fd > 256)
 		return (NULL);
-	if (buff[0] == '\0')
+	if (buff[fd][0] == '\0')
 	{
-		bytes_read = read(fd, buff, BUFFER_SIZE);
+		//printf("Entra1");
+		bytes_read = read(fd, buff[fd], BUFFER_SIZE);
 		if (bytes_read == -1 || bytes_read == 0)
 			return (NULL);
-		buff[bytes_read] = '\0';
+		buff[fd][bytes_read] = '\0';
 	}
-	line = get_buffer(buff);
-	//position = ft_strlen_gnl(buff);
-	//printf("%ld\n", position);
-	if (buff[0] == '\0' && bytes_read > 0)
+	line = get_buffer(buff[fd]);
+	/*Ahora mismo, para size = 1, lo que está ocurriendo es que entra en los dos if
+	 * por eso faltan saltos de linea y solo se imprimen tres, porque hay dos lineas
+	 * que tienen dos*/
+	if (buff[fd][0] == '\0' && bytes_read > 0)
 	{
-		//printf("Entra");
-		ft_bzero(buff, BUFFER_SIZE + 1);
-		//position = 0;
-		line = line_exceeds_buff(line, buff/*, &position*/, &bytes_read, fd);
+		//printf("Entra2");
+		ft_bzero(buff[fd], BUFFER_SIZE + 1);
+		line = line_exceeds_buff(line, buff[fd], &bytes_read, fd);
 	}
 	return (line);
 }

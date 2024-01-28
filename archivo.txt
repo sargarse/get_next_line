@@ -1,6 +1,3 @@
-1
-2
-
-
-
-3
+- Hola Sara!
+- Bien, estoy programando el bonus de gnl.
+- Pues no lo tengo claro.
