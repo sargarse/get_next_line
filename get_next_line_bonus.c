@@ -94,14 +94,14 @@ char	*get_next_line(int fd)
 	line = NULL;
 	if (fd < 0 || BUFFER_SIZE <= 0 || fd > 256)
 		return (NULL);
-	if (buff[fd][0] == '\0')
+	/*if (buff[fd][0] == '\0')
 	{
 		//printf("Entra1");
 		bytes_read = read(fd, buff[fd], BUFFER_SIZE);
 		if (bytes_read == -1 || bytes_read == 0)
 			return (NULL);
 		buff[fd][bytes_read] = '\0';
-	}
+	}*/
 	line = get_buffer(buff[fd]);
 	/*Ahora mismo, para size = 1, lo que está ocurriendo es que entra en los dos if
 	 * por eso faltan saltos de linea y solo se imprimen tres, porque hay dos lineas
