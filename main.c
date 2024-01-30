@@ -17,7 +17,7 @@
 int	main(void)
 {
 	int		fd;
-	//int		fd2;
+    int		fd2;
 	char	*line;
 	int		i;
 
@@ -27,6 +27,7 @@ int	main(void)
 	//fd = open("archivo3.txt", O_RDONLY);
 	//fd = open("archivo2.txt", O_RDONLY);
 	//fd2 = open("archivo2.txt", O_RDONLY);
+    fd2 = open("giant_line_nl.txt", O_RDONLY);
 	if (fd == -1)
 		return (1);
 	while (i < 9)
@@ -34,9 +35,9 @@ int	main(void)
 		line = get_next_line(fd);
 		printf("linea: %s", line);
 		free(line);
-		//line = get_next_line(fd2);
-		//printf("%s", line);
-		//free(line);
+		line = get_next_line(fd2);
+		printf("%s", line);
+        free(line);
 		i++;
 	}
 	close (fd);
