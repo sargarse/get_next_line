@@ -11,15 +11,14 @@
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
-#include <stdio.h>
 
 char	*get_buffer(char *buff)
 {
-	char		*line;
-	char		*buff_aux;
-	ssize_t		i;
-	ssize_t		len;
-	
+	char	*line;
+	char	*buff_aux;
+	ssize_t	i;
+	ssize_t	len;
+
 	i = 0;
 	while (*(buff + i) && *(buff + i) != '\n')
 		i++;
@@ -40,31 +39,25 @@ char	*get_buffer(char *buff)
 	return (line);
 }
 
-char	*manage_aux(char *buff_aux, char *buff, char *line, ssize_t *position)
+ssize_t	find_len(char *buff_aux)
 {
 	ssize_t	len;
-	char	*temp;
 
 	len = 0;
 	while (*(buff_aux + len) && *(buff_aux + len) != '\n')
 		len++;
 	if (*(buff_aux + len) == '\n')
 		len++;
-	if (len < BUFFER_SIZE + 1)
-		ft_strlcpy_gnl(buff, buff_aux + len, (BUFFER_SIZE - len + 1));
-	temp = (char *)malloc(sizeof(char) * (len + 1));
-	if (!temp)
-		return (NULL);
-	ft_strlcpy_gnl(temp, buff_aux, len + 1);
-	line = ft_strjoin_gnl(line, temp, position);
-	return (line);
+	return (len);
 }
 
 char	*line_exceeds_buff(char *line, char *buff, ssize_t *bytes_read, int fd)
 {
-	char	buff_aux[BUFFER_SIZE + 1];
-	ssize_t		position = 0;
+	char		buff_aux[BUFFER_SIZE + 1];
+	ssize_t		position;
+	ssize_t		len;
 
+	position = 0;
 	while (position == 0)
 	{
 		ft_bzero(buff_aux, BUFFER_SIZE + 1);
@@ -74,19 +67,19 @@ char	*line_exceeds_buff(char *line, char *buff, ssize_t *bytes_read, int fd)
 			free(line);
 			return (NULL);
 		}
-		line = manage_aux(buff_aux, buff, line, &position);
-		if (!line)
-			return (NULL);
+		len = find_len(buff_aux);
+		line = ft_strjoin_gnl(line, buff_aux, &position, len);
+		if (len < BUFFER_SIZE)
+			ft_strlcpy_gnl(buff, buff_aux + len, (BUFFER_SIZE - len + 1));
 		if (*bytes_read < BUFFER_SIZE)
 			position = -1;
 	}
-	position = 0;
 	return (line);
 }
 
 char	*get_next_line(int fd)
 {
-	static char		buff[4096][BUFFER_SIZE + 1];
+	static char		buff[512][BUFFER_SIZE + 1];
 	char			*line;
 	ssize_t			bytes_read;
 
@@ -94,23 +87,8 @@ char	*get_next_line(int fd)
 	line = NULL;
 	if (fd < 0 || BUFFER_SIZE <= 0 || fd > 256)
 		return (NULL);
-	/*if (buff[fd][0] == '\0')
-	{
-		//printf("Entra1");
-		bytes_read = read(fd, buff[fd], BUFFER_SIZE);
-		if (bytes_read == -1 || bytes_read == 0)
-			return (NULL);
-		buff[fd][bytes_read] = '\0';
-	}*/
 	line = get_buffer(buff[fd]);
-	/*Ahora mismo, para size = 1, lo que está ocurriendo es que entra en los dos if
-	 * por eso faltan saltos de linea y solo se imprimen tres, porque hay dos lineas
-	 * que tienen dos*/
-	if (buff[fd][0] == '\0' && bytes_read > 0)
-	{
-		//printf("Entra2");
-		ft_bzero(buff[fd], BUFFER_SIZE + 1);
+	if (buff[fd][0] == '\0')
 		line = line_exceeds_buff(line, buff[fd], &bytes_read, fd);
-	}
 	return (line);
 }
