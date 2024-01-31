@@ -67,3 +67,4 @@ void	ft_strlcpy_gnl(char *dst, const char *src, ssize_t size)
 		*(dst + i) = '\0';
 	}
 }
+
