@@ -7,18 +7,30 @@
     <configurations />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c84de076-2891-4353-ba69-ba7d64aab883" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/bonus.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/giant_line_nl.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/a.out" beforeDir="false" afterPath="$PROJECT_DIR$/a.out" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/a.out.dSYM/Contents/Info.plist" beforeDir="false" afterPath="$PROJECT_DIR$/a.out.dSYM/Contents/Info.plist" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/a.out.dSYM/Contents/Resources/DWARF/a.out" beforeDir="false" afterPath="$PROJECT_DIR$/a.out.dSYM/Contents/Resources/DWARF/a.out" afterDir="false" />
+    <list default="true" id="c84de076-2891-4353-ba69-ba7d64aab883" name="Changes" comment="todo completado">
+      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/get_next_line.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/1char.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/a.out" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/a.out.dSYM/Contents/Info.plist" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/a.out.dSYM/Contents/Resources/DWARF/a.out" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/alternate_line_nl_no_nl.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/archivo.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/archivo2.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/archivo3.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bonus.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bonus.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/get_next_line.c" beforeDir="false" afterPath="$PROJECT_DIR$/get_next_line.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/get_next_line.h" beforeDir="false" afterPath="$PROJECT_DIR$/get_next_line.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/get_next_line_bonus.c" beforeDir="false" afterPath="$PROJECT_DIR$/get_next_line_bonus.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/get_next_line_bonus.h" beforeDir="false" afterPath="$PROJECT_DIR$/get_next_line_bonus.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/get_next_line_utils.c" beforeDir="false" afterPath="$PROJECT_DIR$/get_next_line_utils.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/get_next_line_utils_bonus.c" beforeDir="false" afterPath="$PROJECT_DIR$/get_next_line_utils_bonus.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/main.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/giant_line_nl.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mandatory.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/multiple_nlx5.txt" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,6 +41,11 @@
     <option name="formatViaClangd" value="false" />
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="get_next_line_bonus" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectColorInfo"><![CDATA[{
@@ -44,13 +61,15 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.cidr.known.project.marker": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
-    "git-widget-placeholder": "get__next__line__bonus",
+    "git-widget-placeholder": "get__next__line__final",
     "last_opened_file_path": "/Users/admin/Desktop/get_next_line",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -73,11 +92,24 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1706624176767</updated>
-      <workItem from="1706624181076" duration="8726000" />
+      <workItem from="1706624181076" duration="10190000" />
     </task>
+    <task id="LOCAL-00001" summary="todo completado">
+      <option name="closed" value="true" />
+      <created>1706658477236</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1706658477236</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="todo completado" />
+    <option name="LAST_COMMIT_MESSAGE" value="todo completado" />
   </component>
 </project>

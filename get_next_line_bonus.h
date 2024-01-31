@@ -18,7 +18,7 @@
 # include <stddef.h>
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 1
+#  define BUFFER_SIZE 42
 # endif
 
 void	ft_bzero(void *s, size_t n);
@@ -27,7 +27,6 @@ char	*get_next_line(int fd);
 char	*get_buffer(char *buff);
 ssize_t	ft_strlen_gnl(const char *str);
 char	*line_exceeds_buff(char *line, char *buff, ssize_t *position, int fd);
-//char	*ft_strjoin_gnl(char *s1, char *s2, ssize_t *position);
 char	*ft_strjoin_gnl(char *s1, char *s2, ssize_t *position, ssize_t size);
 
 #endif

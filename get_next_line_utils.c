@@ -10,10 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
-#include <stdio.h>
+#include "get_next_line_bonus.h"
 
-char	*ft_strjoin_gnl(char *s1, char *s2, ssize_t *position)
+char	*ft_strjoin_gnl(char *s1, char *s2, ssize_t *position, ssize_t size)
 
 {
 	ssize_t		len;
@@ -21,16 +20,15 @@ char	*ft_strjoin_gnl(char *s1, char *s2, ssize_t *position)
 
 	if (!s1 || !s2)
 		return (NULL);
-	len = ft_strlen_gnl(s1) + ft_strlen_gnl(s2);
+	len = ft_strlen_gnl(s1) + size;
 	ptr = (char *)malloc(sizeof(char) * (len + 1));
 	if (ptr == NULL)
 		return (NULL);
 	ft_strlcpy_gnl(ptr, s1, ft_strlen_gnl(s1) + 1);
-	ft_strlcpy_gnl(ptr + ft_strlen_gnl(s1), s2, ft_strlen_gnl(s2) + 1);
+	ft_strlcpy_gnl(ptr + ft_strlen_gnl(s1), s2, size + 1);
 	free(s1);
 	if (len > 0 && *(ptr + len - 1) == '\n')
 		*position = ft_strlen_gnl(s2);
-	free(s2);
 	return (ptr);
 }
 
@@ -67,4 +65,3 @@ void	ft_strlcpy_gnl(char *dst, const char *src, ssize_t size)
 		*(dst + i) = '\0';
 	}
 }
-

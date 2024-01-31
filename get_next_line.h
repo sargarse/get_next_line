@@ -24,9 +24,9 @@
 void	ft_bzero(void *s, size_t n);
 void	ft_strlcpy_gnl(char *dst, const char *src, ssize_t size);
 char	*get_next_line(int fd);
-char	*get_buffer(char *buff, ssize_t *position);
+char	*get_buffer(char *buff);
 ssize_t	ft_strlen_gnl(const char *str);
 char	*line_exceeds_buff(char *line, char *buff, ssize_t *position, int fd);
-char	*ft_strjoin_gnl(char *s1, char *s2, ssize_t *position);
+char	*ft_strjoin_gnl(char *s1, char *s2, ssize_t *position, ssize_t size);
 
 #endif

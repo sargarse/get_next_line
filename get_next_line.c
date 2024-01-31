@@ -11,67 +11,69 @@
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <stdio.h>
 
-char	*get_buffer(char *buff, ssize_t *position)
+char	*get_buffer(char *buff)
 {
-	char		*line;
-	ssize_t		i;
+	char	*line;
+	char	*buff_aux;
+	ssize_t	i;
+	ssize_t	len;
 
 	i = 0;
-	while (*(buff + *position + i) && *(buff + *position + i) != '\n')
+	while (*(buff + i) && *(buff + i) != '\n')
 		i++;
-	if (*(buff + *position + i) == '\n' || !*(buff + *position + i))
+	if (*(buff + i) == '\n' || !*(buff + i))
 		i++;
 	line = (char *)malloc(sizeof(char) * (i + 1));
 	if (!line)
 		return (NULL);
-	ft_strlcpy_gnl(line, buff + *position, i + 1);
-	*position += i;
+	ft_strlcpy_gnl(line, buff, i + 1);
+	len = ft_strlen_gnl(buff + i);
+	buff_aux = (char *)malloc(sizeof(char) * (len + 1));
+	if (!buff_aux)
+		return (NULL);
+	ft_strlcpy_gnl(buff_aux, buff + i, len + 1);
+	ft_bzero(buff, BUFFER_SIZE + 1);
+	ft_strlcpy_gnl(buff, buff_aux, len + 1);
+	free(buff_aux);
 	return (line);
 }
 
-char	*manage_aux(char *buff_aux, char *buff, char *line, ssize_t *position)
+ssize_t	find_len(char *buff_aux)
 {
 	ssize_t	len;
-	char	*temp;
 
 	len = 0;
 	while (*(buff_aux + len) && *(buff_aux + len) != '\n')
 		len++;
 	if (*(buff_aux + len) == '\n')
 		len++;
-	if (len < BUFFER_SIZE + 1)
-		ft_strlcpy_gnl(buff, buff_aux + len, (BUFFER_SIZE - len + 1));
-	temp = (char *)malloc(sizeof(char) * (len + 1));
-	if (!temp)
-		return (NULL);
-	ft_strlcpy_gnl(temp, buff_aux, len + 1);
-	line = ft_strjoin_gnl(line, temp, position);
-	return (line);
+	return (len);
 }
 
-char	*line_exceeds_buff(char *line, char *buff, ssize_t *position, int fd)
+char	*line_exceeds_buff(char *line, char *buff, ssize_t *bytes_read, int fd)
 {
-	char	buff_aux[BUFFER_SIZE + 1];
-	ssize_t	bytes_read;
+	char		buff_aux[BUFFER_SIZE + 1];
+	ssize_t		position;
+	ssize_t		len;
 
-	while (*position == 0)
+	position = 0;
+	while (position == 0)
 	{
 		ft_bzero(buff_aux, BUFFER_SIZE + 1);
-		bytes_read = read(fd, buff_aux, BUFFER_SIZE);
-		if (bytes_read == -1 || (bytes_read == 0 && ft_strlen_gnl(line) == 0))
+		*bytes_read = read(fd, buff_aux, BUFFER_SIZE);
+		if (*bytes_read == -1 || (*bytes_read == 0 && ft_strlen_gnl(line) == 0))
 		{
 			free(line);
 			return (NULL);
 		}
-		line = manage_aux(buff_aux, buff, line, position);
-		if (!line)
-			return (NULL);
-		if (bytes_read < BUFFER_SIZE)
-			*position = -1;
+		len = find_len(buff_aux);
+		line = ft_strjoin_gnl(line, buff_aux, &position, len);
+		if (len < BUFFER_SIZE)
+			ft_strlcpy_gnl(buff, buff_aux + len, (BUFFER_SIZE - len + 1));
+		if (*bytes_read < BUFFER_SIZE)
+			position = -1;
 	}
-	*position = 0;
 	return (line);
 }
 
@@ -79,25 +81,14 @@ char	*get_next_line(int fd)
 {
 	static char		buff[BUFFER_SIZE + 1];
 	char			*line;
-	static ssize_t	position;
 	ssize_t			bytes_read;
 
+	bytes_read = 1;
 	line = NULL;
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	if (position == 0 && buff[position] == '\0')
-	{
-		bytes_read = read(fd, buff, BUFFER_SIZE);
-		if (bytes_read == -1 || bytes_read == 0)
-			return (NULL);
-		buff[bytes_read] = '\0';
-	}
-	line = get_buffer(buff, &position);
-	if (position > 0 && buff[position - 1] != '\n')
-	{
-		ft_bzero(buff, BUFFER_SIZE + 1);
-		position = 0;
-		line = line_exceeds_buff(line, buff, &position, fd);
-	}
+	line = get_buffer(buff);
+	if (buff[0] == '\0')
+		line = line_exceeds_buff(line, buff, &bytes_read, fd);
 	return (line);
 }
